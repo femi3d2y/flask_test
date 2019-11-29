@@ -1,9 +1,14 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from os import getenv
+import pymysql
 
 app=Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:aerojak@35.242.176.146/db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://' + getenv('MY_SQL_USER') + ':' + getenv('MY_SQL_PASS') + '@' + getenv('MY_SQL_HOST') + '/' + getenv('MY_SQL_DB')
+
 db = SQLAlchemy(app)
+
+app.config['SECRET_KEY'] = 'vm43j09skpfk340wkfdof24doif40'
 
 from application import routes
