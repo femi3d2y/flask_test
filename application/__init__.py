@@ -1,5 +1,17 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from os import getenv
+from flask_bcrypt import Bcrypt
+import pymysql
 
-app = Flask(__name__)
+
+app=Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://' + getenv('MY_SQL_USER') + ':' + getenv('MY_SQL_PASS') + '@' + getenv('MY_SQL_HOST') + '/' + getenv('MY_SQL_DB')
+
+db = SQLAlchemy(app)
+bcrypt =Bcrypt(app)
+
+app.config['SECRET_KEY'] = 'vm43j09skpfk340wkfdof24doif40'
 
 from application import routes
