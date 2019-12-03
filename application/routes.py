@@ -7,7 +7,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html', title='Home', posts=dummyData)
+    posts=Posts.query.all()
+    return render_template('home.html', title='Home', posts=posts)
 @app.route('/about')
 def about():
     return render_template('about.html', title='About')
@@ -15,10 +16,6 @@ def about():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-
-   # def set_password(self, password):
-       # password_hash = bcrypt.hashpassword(password.encode('utf8'), bcrypt.gensalt())
-       # self.password_hash = password_hash.decode('utf8')
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -41,10 +38,9 @@ def post():
     form = PostForm()
     if form.validate_on_submit():
         postData = Posts(
-        first_name=form.first_name.data,
-        last_name=form.last_name.data,
         title=form.title.data,
-        content=form.content.data
+        content=form.content.data,
+        author=current_user
     )
                 
         db.session.add(postData)
@@ -55,10 +51,18 @@ def post():
     return render_template('post.html', title='Post', form=form)
 @app.route('/register', methods=['GET','POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+
+
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_pw = bcrypt.generate_password_hash(form.password.data)
-        user = Users(email=form.email.data, password=hashed_pw)
+        user = Users(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                password=hashed_pw)
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('post'))
