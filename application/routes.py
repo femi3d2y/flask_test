@@ -40,6 +40,7 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/post', methods=['GET','POST'])
+@login_required
 def post():
     form = PostForm()
     if form.validate_on_submit():

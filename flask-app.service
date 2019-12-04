@@ -1,10 +1,8 @@
 [Unit]
 Description=Flask Application
 [Service]
-EnvironmentFile=/opt/flashlectures/venv/bin/activate
 User=pythonadm
-WorkingDirectory=/opt/flask_test
-ExecStart=/bin/bash -c 'cd /opt/flashlectures && source .venv/bin/activate && .app.py
-[Install}
+WorkingDirectory=/opt/flask-app
+ExecStart=/bin/bash -c 'cd /opt/flask-app && source ~/.bashrc && source ./venv/bin/activate && python ./app.py'
+[Install]
 WantedBy=multi-user.target
-
