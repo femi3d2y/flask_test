@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_login import LoginManager, current_user
-from wtforms import StringField, SubmitField, PasswordField, BooleanField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from application.models import Users
 
@@ -55,6 +55,7 @@ class RegistrationForm(FlaskForm):
                 EqualTo('password')
             ]
         )
+    image = FileField('Image file')
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
