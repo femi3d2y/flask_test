@@ -5,8 +5,7 @@ pipeline{
 		
 		
         	stage('--docker-compose build and push--'){
-			steps{
-                    		
+			steps{	
 				cd flask_test/
 				git pull
                            	docker-compose build 
