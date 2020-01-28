@@ -1,7 +1,7 @@
 version: '3.7'
 services:
  app:
-   image: eu.gcr.io/nice-root-258809/app:latest 
+   image: eu.gcr.io/nice-root-258809/app:${BUILD_NUMBER} 
    build:
     context: ./
     dockerfile: Dockerfile
