@@ -1,21 +1,24 @@
 pipeline{
 	agent any
 
-	    stages{
+	stages{
 		
-        	    stage('--update repo/push image--'){
-			        steps{
-                        cd flask_test
-                        git pull
-                        docker-compose build
-                        docker-compose push
+		
+        	stage('--docker-compose build and push--'){
+			steps{
+                    		
+				cd flask_test/
+				git pull
+                           	docker-compose build 
+                           	docker-compose push
             		}
         	}
-                stage('--Kubernetes update service--'){
-			        steps{
-                        cd flask_test
-                        kubectl apply -f app.yml
-            		}
-        	}
-        }
+		stage('--Replicate services--'){
+			steps{
+				cd flask_test/
+				kubectl apply -f app.yml
+			}
+		}
+	}
 }
+
